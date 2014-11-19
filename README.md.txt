@@ -1,1 +1,0 @@
-Proximity Poll Readme stub
