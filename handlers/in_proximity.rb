@@ -18,7 +18,7 @@ class InProximity < Sinatra::Base
 
   poll = lambda do
     `poll #{params[:words]}` if params
-	^^^Need to verify parameters
+#	^^^Need to verify parameters
   end
 
   get '/poll', &poll
