@@ -24,12 +24,14 @@ end
 
 #Find if user is listed
 #Find "{" + uuid + "}" in userlist.txt
-*userdata
+*userdata = []
 open("userlist.txt","r").each_line do |line|
-    userdata << line
+    temp = line.split("\n")
+    userdata << line[0]
+end
 
 open("testwhat.txt","wb") do |file|
     file << userdata
-
+end
 
 #Output listed user requests
