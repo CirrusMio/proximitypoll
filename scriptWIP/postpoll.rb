@@ -2,12 +2,14 @@
 #Input UUID@Time@Key
 dataInIs = "12345@121120141632@AKey"
 
+
 #Parse input data
 uuid, *rest = dataInIs.split("@")
 #stamp, key = rest.split("@")
 stamp = rest[0]
 key = rest[1]
-#stamp="$(echo "$@" | sed 's/ /\+/g')"
+
+
 
 #Record UUID
 open("proximitylog.txt","ab") do |file|
@@ -21,9 +23,13 @@ end
 
 
 #Find if user is listed
+#Find "{" + uuid + "}" in userlist.txt
+*userdata
+open("userlist.txt","r").each_line do |line|
+    userdata << line
 
-
-
+open("testwhat.txt","wb") do |file|
+    file << userdata
 
 
 #Output listed user requests
