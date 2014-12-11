@@ -11,8 +11,7 @@ key = rest[1]
 
 #Record UUID
 open("proximitylog.txt","ab") do |file|
-    file << "Date: " + stamp[0] + stamp[1] + "|" + stamp[2] + stamp[3] + "|" + s
-tamp[4] +stamp [5] + stamp[6] + stamp[7]
+    file << "Date: " + stamp[0] + stamp[1] + "|" + stamp[2] + stamp[3] + "|" + stamp[4] +stamp [5] + stamp[6] + stamp[7]
     file << " Time: " + stamp[8] + stamp[9] + "|" + stamp[10] + stamp[11]
     file << "\nUUID: " + uuid + "\n\n"
 end
