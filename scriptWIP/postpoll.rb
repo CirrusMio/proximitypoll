@@ -26,10 +26,34 @@ end
 #Find "{" + uuid + "}" in userlist.txt
 *userdata = []
 open("userlist.txt","r").each_line do |line|
-    temp = line.split("\n")
-    userdata << line[0]
+    if line != "\n"
+         temp = line.split("\n")
+         userdata << line[0]
+    end
 end
 
+userdata.length.times do |i|
+    if userdata[i] == uuid
+         counter = i
+         while userdata[counter] != "]" do
+              #Do anything here you want to do with
+	      #User data
+              templine = userdata[counter]
+              if templine[0] == ">"
+                   templine = templine.split(">")
+                   curl templine[1]
+              end
+              #split line by :  (Pseudocode for attributes)
+	      #If [0] split == attribute type
+                     #typeVar = split[1]
+
+         end
+    end
+end
+
+
+
+#Test our data files interpretation
 open("testwhat.txt","wb") do |file|
     file << userdata
 end

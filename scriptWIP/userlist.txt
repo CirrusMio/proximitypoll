@@ -1,3 +1,19 @@
-12345
-22022
-13431
+Userlist file, UUID must be in the format as below, comments may be
+	added outside of closed brackets
+
+[{12345}
+name:Tyler
+attribute:trait
+>--data "somedatalol" http://localhost:4567/dooropen
+]
+
+[{22022}
+name:Cody
+>--data "who is cody?" http://localhost:4567/dooropen
+]
+
+[{13431}
+]
+
+
+
