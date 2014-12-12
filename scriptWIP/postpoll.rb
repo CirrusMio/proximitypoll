@@ -1,4 +1,3 @@
-#require string
 #Input UUID@Time@Key
 dataInIs = "12345@121120141632@AKey"
 
@@ -28,25 +27,33 @@ end
 open("userlist.txt","r").each_line do |line|
     if line != "\n"
          temp = line.split("\n")
-         userdata << line[0]
+         userdata << temp[0]
     end
 end
-
+#print "Reached userdata\n"
+uuid = "[{" + uuid + "}"
 userdata.length.times do |i|
     if userdata[i] == uuid
+         #print "UUID Validated, i="
+         #print i
+         #print "\n"
          counter = i
          while userdata[counter] != "]" do
               #Do anything here you want to do with
-	      #User data
+              #User data
               templine = userdata[counter]
+              print "Line:" + templine + "\n"
+              #curl stuff
               if templine[0] == ">"
                    templine = templine.split(">")
-                   curl templine[1]
+                   print templine[0] + " <- | -> " + templine[1] + "\n"
+                   #curl templine[1]
+                   #print templine[1]
               end
               #split line by :  (Pseudocode for attributes)
-	      #If [0] split == attribute type
+              #If [0] split == attribute type
                      #typeVar = split[1]
-
+              counter = counter + 1
          end
     end
 end
