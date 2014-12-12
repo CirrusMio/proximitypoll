@@ -1,18 +1,22 @@
 Userlist file, UUID must be in the format as below, comments may be
 	added outside of closed brackets
 
+Curl and email test
 [{12345}
-name:Tyler
-attribute:trait
->--data "somedatalol" http://localhost:4567/dooropen
+@name:Tyler
+@email:tyler.shipp@uky.edu
+>--data "Hello+Tyler" http://localhost:4567/say
 ]
 
+Email test
 [{22022}
-name:Cody
->--data "who is cody?" http://localhost:4567/dooropen
+@name:Cody
+@email:mcortt@gmail.com
 ]
 
+Curl only test
 [{13431}
+>--data http://localhost:4567/dooropen
 ]
 
 
