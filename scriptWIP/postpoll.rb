@@ -1,5 +1,6 @@
+require 'mail'
 #Input UUID@Time@Key
-dataInIs = "12345@121120141632@AKey"
+dataInIs = "22022@121120141632@AKey"
 
 
 #Parse input data
@@ -30,6 +31,11 @@ open("userlist.txt","r").each_line do |line|
          userdata << temp[0]
     end
 end
+#Empty attributes
+email = "NONE"
+name = "NONE"
+
+
 #print "Reached userdata\n"
 uuid = "[{" + uuid + "}"
 userdata.length.times do |i|
@@ -42,13 +48,35 @@ userdata.length.times do |i|
               #Do anything here you want to do with
               #User data
               templine = userdata[counter]
-              print "Line:" + templine + "\n"
+              #print "Line:" + templine + "\n"
               #curl stuff
               if templine[0] == ">"
                    templine = templine.split(">")
-                   print templine[0] + " <- | -> " + templine[1] + "\n"
+                   #print templine[0] + " <- | -> " + templine[1] + "\n"
+                   tsplit = templine[1].split(" ")
+                   #tsplit << " "
+                   if tsplit[0] == "--data"
+                        system("curl", tsplit[0], tsplit[1], tsplit[2])
+                   else
+                        system("curl", tsplit[0])
+                   end
                    #curl templine[1]
                    #print templine[1]
+              end
+              #Split attribute
+              #print "\n"
+              #print templine
+              #print "\n"
+              if templine[0] == "@"
+                   templine = templine.split(":")
+              end
+              #print templine
+              if templine[0] == "@name"
+                   name = templine[1]
+              end
+
+              if templine[0] == "@email"
+                   email = templine[1]
               end
               #split line by :  (Pseudocode for attributes)
               #If [0] split == attribute type
@@ -59,10 +87,37 @@ userdata.length.times do |i|
 end
 
 
+############
+#print "\n" + name + " | " + email + "\n"
+if name != "NONE"
+     if email != "NONE"
+          print "Attempted to send email\n"
+
+          #Email a user the log if their email and name are provided
+          options = { :address              => "smtp.gmail.com",
+                      :port                 => 587,
+                      :domain               => 'gmail.com',
+                      :user_name            => 'cirrusmioat',
+                      :password             => 'soserious',
+                      :authentication       => 'plain',
+                      :enable_starttls_auto => true }
+
+          Mail.defaults do
+               delivery_method :smtp, options
+          end
+
+          Mail.deliver do
+                 to email
+                 from 'cirrusmioat@gmail.com'
+                 subject 'Proximity Poll Alert for ' + name
+                 body ' '
+                 attachments['proximitylog.txt'] = File.read('proximitylog.txt')
+
+          end
+     end
+end
 
 #Test our data files interpretation
 open("testwhat.txt","wb") do |file|
     file << userdata
 end
-
-#Output listed user requests
