@@ -137,6 +137,14 @@ class InProximity < Sinatra::Base
 	end
 end
 
-  get '/poll', &poll
-  post '/poll', &poll
+   get '/poll', &poll
+   post '/poll', &poll
+#  get '/poll' do
+ #    poll
+  #   "added someone to file and sent email alert"
+ # end
+ # post '/poll' do
+  #   poll
+   #  "added someone to file and sent email alert"
+ # end
 end
