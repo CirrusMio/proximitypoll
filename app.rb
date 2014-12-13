@@ -5,10 +5,7 @@ require 'ipaddr'
 require 'active_support/all'
 require 'haml'
 require 'mail'
-#require 'rubygems'
-require 'rmagick'
 require 'open-uri'
-include Magick
 
 class ProximityPoll < Sinatra::Base
   # include modules
