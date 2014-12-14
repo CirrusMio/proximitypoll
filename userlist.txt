@@ -2,6 +2,9 @@ Userlist file, UUID must be in the format as below, comments may be
 	added outside of closed brackets
 Poll is called by curl --data "msg=UUID@TimeStamp@Key" http://localhost:4569/poll
 	examples for say and door in the test users below
+A user can specify any other applications they want to curl data to in this file and
+	they can specify an email address to be alerted when the UUID is found.
+	
 
 Curl and email test
 [{12345}

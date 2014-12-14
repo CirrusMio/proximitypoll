@@ -1,8 +1,15 @@
+#This is the ruby file that contains the code that is run when call is made to the port
+
+#List our required libraries
 require 'mail'
 require_relative '../lib/authentication.rb'
+
+#Define our InProximity class for Sinatra to use
 class InProximity < Sinatra::Base
+  #Include authentication
   include Authentication
 
+  #Check authentication (NYI)
   before '/poll/*' do
     if authenticate(params[:token])
     else
@@ -10,20 +17,20 @@ class InProximity < Sinatra::Base
     end
   end
 
-
+  #Proceed with action
   poll = lambda do
-                #Input UUID@Time@Key
-                #dataInIs = "22022@121120141632@AKey" demo key
+                #Input UUID@Time@Key from curl
+                #dataInIs = "msg=22022@121120141632@AKey" demo key
                 dataInIs = params[:msg]
                 #Parse input data
                 uuid, *rest = dataInIs.split("@")
-                #stamp, key = rest.split("@")
                 stamp = rest[0]
                 key = rest[1]
 
 
-
+		#######################################
                 #Record UUID
+		#Open the log file and write the data
                 open("proximitylog.txt","ab") do |file|
                         file << "Date: " + stamp[0] + stamp[1] + "|" + stamp[2]+ stamp[3] + "|" + stamp[4] +stamp [5] + stamp[6] + stamp[7]
                         file << " Time: " + stamp[8] + stamp[9] + "|" + stamp[10] + stamp[11]
@@ -33,9 +40,10 @@ class InProximity < Sinatra::Base
 
 
 
-
-                #Find if user is listed
-                #Find "{" + uuid + "}" in userlist.txt
+		#######################################
+                #Find if user is listed in userlist.txt
+		#Create blank array then read in each valid line
+		#	and strip new lines
                 *userdata = []
                 open("userlist.txt","r").each_line do |line|
                         if line != "\n"
@@ -43,69 +51,69 @@ class InProximity < Sinatra::Base
                                  userdata << temp[0]
                         end
                 end
-                #Empty attributes
+
+                #Initialize Empty attributes here
+		#Attribute = trait
                 email = "NONE"
                 name = "NONE"
 
 
-                #print "Reached userdata\n"
+                #Format the UUID according to user file
                 uuid = "[{" + uuid + "}"
+
+		#Iterate through user data and keep track of position in data
                 userdata.length.times do |i|
+			#If the current data matches the user ID
                         if userdata[i] == uuid
-                                 #print "UUID Validated, i="
-                                 #print i
-                                 #print "\n"
+                                 #Then set counter to current position and read in user information
+				 #	until the end marker is found
                                  counter = i
                                  while userdata[counter] != "]" do
-                                          #Do anything here you want to do with
-                                          #User data
+					  #Find if the line is an application call
                                           templine = userdata[counter]
-                                          #print "Line:" + templine + "\n"
-                                          #curl stuff
+                                          #If so then curl stuff
                                           if templine[0] == ">"
+						   #Format the curl call
                                                    templine = templine.split(">")
-                                                   #print templine[0] + " <- | -> " + templine[1] + "\n"
                                                    tsplit = templine[1].split(" ")
-                                                   #tsplit << " "
+                                                   #If data or else no data
                                                    if tsplit[0] == "--data"
                                                                 system("curl", tsplit[0], tsplit[1], tsplit[2])
                                                    else
                                                                 system("curl", tsplit[0])
                                                    end
-                                                   #curl templine[1]
-                                                   #print templine[1]
                                           end
-                                          #Split attribute
-                                          #print "\n"
-                                          #print templine
-                                          #print "\n"
+					  #Otherwise, if it is an attribute definition split it. attr < : > trait
                                           if templine[0] == "@"
                                                    templine = templine.split(":")
                                           end
-                                          #print templine
+                                          #If left hand is name then right hand is value
                                           if templine[0] == "@name"
                                                    name = templine[1]
                                           end
-
+					
+					  #If left hand is email then right hand is value
                                           if templine[0] == "@email"
                                                    email = templine[1]
                                           end
                                           #split line by :  (Pseudocode for attributes)
                                           #If [0] split == attribute type
                                                          #typeVar = split[1]
+					  #More variables can be added easily here but must be added after curls
+					  #Increment position counter
                                           counter = counter + 1
                                  end
                         end
                 end
 
 
-                ############
-                #print "\n" + name + " | " + email + "\n"
+                ##########################################
+		#Actions:
+                #If an email and name attribute were found
                 if name != "NONE"
                          if email != "NONE"
-                                  print "Attempted to send email\n"
-
                                   #Email a user the log if their email and name are provided
+				  #Sets SMTP options
                                   options = { :address              => "smtp.gmail.com",
                                                           :port	=> 587,
                                                           :domain	=> 'gmail.com',
@@ -113,11 +121,11 @@ class InProximity < Sinatra::Base
                                                           :password	=> 'soserious',
                                                           :authentication	=> 'plain',
                                                           :enable_starttls_auto	=> true }
-
+				  #Apply options
                                   Mail.defaults do
                                            delivery_method :smtp, options
                                   end
-
+				  #Deliver msg
                                   Mail.deliver do
                                                  to email
                                                  from 'cirrusmioat@gmail.com'
@@ -128,21 +136,10 @@ class InProximity < Sinatra::Base
                                   end
                          end
                 end
-
-                #Test our data files interpretation
-                open("testwhat.txt","wb") do |file|
-                file << userdata
         end
   end
-
+   #Get and post poll
    get '/poll', &poll
    post '/poll', &poll
-#  get '/poll' do
- #    poll
-  #   "added someone to file and sent email alert"
- # end
- # post '/poll' do
-  #   poll
-   #  "added someone to file and sent email alert"
- # end
+
 end
