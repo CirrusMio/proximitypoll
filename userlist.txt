@@ -22,8 +22,13 @@ Email tests
 
 Curl only test
 [{13431}
->--data http://localhost:4565/dooropen
+>--data "Stuff" http://localhost:4565/dooropen
 ]
 
+[{10101}
+>http://localhost:4565/dooropen
+@name:Cody
+@email:mcortt@gmail.com
+]
 
 
