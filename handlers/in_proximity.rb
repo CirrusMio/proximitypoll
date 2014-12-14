@@ -65,7 +65,7 @@ class InProximity < Sinatra::Base
                                           if templine[0] == ">"
                                                    templine = templine.split(">")
                                                    #print templine[0] + " <- | -> " + templine[1] + "\n"
-                                                   tsplit = templine[1].split("")
+                                                   tsplit = templine[1].split(" ")
                                                    #tsplit << " "
                                                    if tsplit[0] == "--data"
                                                                 system("curl", tsplit[0], tsplit[1], tsplit[2])
