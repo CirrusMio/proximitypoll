@@ -17,6 +17,8 @@ class InProximity < Sinatra::Base
     end
   end
 
+  flagvar = "f"
+
   #Proceed with action
   poll = lambda do
                 #Input UUID@Time@Key from curl
@@ -65,10 +67,12 @@ class InProximity < Sinatra::Base
                 userdata.length.times do |i|
 			#If the current data matches the user ID
                         if userdata[i] == uuid
+				 flagvar = "t"
                                  #Then set counter to current position and read in user information
 				 #	until the end marker is found
                                  counter = i
                                  while userdata[counter] != "]" do
+					  #Flag user found
 					  #Find if the line is an application call
                                           templine = userdata[counter]
                                           #If so then curl stuff
@@ -106,6 +110,12 @@ class InProximity < Sinatra::Base
                         end
                 end
 
+		#If unlisted user notify given default contact information
+		#User may want to change this to their personal email depending on preferences
+		if flagvar == "f"
+			name = uuid
+			email = "cirrusmio.at@gmail.com"
+		end
 
                 ##########################################
 		#Actions:
