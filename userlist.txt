@@ -1,6 +1,7 @@
 Userlist file, UUID must be in the format as below, comments may be
 	added outside of closed brackets
 Poll is called by curl --data "msg=UUID@TimeStamp@Key" http://localhost:4569/poll
+	examples for say and door in the test users below
 
 Curl and email test
 [{12345}
@@ -22,11 +23,11 @@ Email tests
 
 Curl only test
 [{13431}
->--data "Stuff" http://localhost:4565/dooropen
+>--data "Stuff" http://localhost:4565/door
 ]
 
 [{10101}
->http://localhost:4565/dooropen
+>http://localhost:4565/door
 @name:Cody
 @email:mcortt@gmail.com
 ]
