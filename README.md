@@ -68,39 +68,32 @@ Bundle gems:
        
 ## How to Use
 Once you have everything installed, there are four things you want to configure or at least take note of.
-       1. Edit / Record the IP/Port Proximity Poll will be listening on. The 
-            Procfile.dev will have "-p WXYZ" where WXYZ is the port it will listen on.
-       2. The default action handler. In handlers/in_proximity.rb you will want to set lines
-            116 and 117 to your preferences. By default it will send an email to itself
-            containing the unknown UUID that triggered it.
-       3. In the same file as the one above look for lines 127-142. These lines contain the sender smtp
-            information. You may customize these if you wish.
-       4. The userlist.txt file contains custom e-mail notification settings as well as calls to other
-            devices using curl.
+*       1. Edit / Record the IP/Port Proximity Poll will be listening on. The Procfile.dev will have "-p WXYZ" where WXYZ is the port it will listen on.
+*       2. The default action handler. In handlers/in_proximity.rb you will want to set lines116 and 117 to your preferences. By default it will send an email to itself containing the unknown UUID that triggered it.
+*       3. In the same file as the one above look for lines 127-142. These lines contain the sender smtp information. You may customize these if you wish.
+*       4. The userlist.txt file contains custom e-mail notification settings as well as calls to other devices using curl.
        
 ## userlist.txt
 This file is so important it needs its own section! There are samples in the file in the repo as well.
 There are a few conventions to keep in mind while using this file. A user is separated by: 
-    [{uuid}
-    ...
-    settings
-    ...
-    ]
-Any comments or notes may be left outside of the [] and it will not affect the ability to read the file.
-Variables within a block of user information are formed as follows: 
-       @variableName:variableValue
+*    [{uuid}
+*    ...
+*    settings
+*    ...
+*    ]
+Any comments or notes may be left outside of the [] and it will not affect the ability to read the file. Variables within a block of user information are formed as follows: 
+*       @variableName:variableValue
 You may specify a custom curl message when the user's UUID is detected by:
-    >--data "messages or data goes here" http://localhost:4565/door
+*    >--data "messages or data goes here" http://localhost:4565/door
 The above is a sample that will trigger our related Door Watcher app when the UUID is read in.
 A full sample:
-[{10101}
->http://localhost:4565/door
-@name:GuyMan
-@email:guysboss@gmail.com
->--data "words=Hello+Guy" http://localhost:4567/say
-]
-This sample would call Door Watcher when GuyMan (AKA: 10101) enters the range and then send an email
-to guysboss@gmail.com and greet him by calling AinsleyTwo.
+*[{10101}
+*>http://localhost:4565/door
+*@name:GuyMan
+*@email:guysboss@gmail.com
+*>--data "words=Hello+Guy" http://localhost:4567/say
+*]
+This sample would call Door Watcher when GuyMan (AKA: 10101) enters the range and then send an email Sto guysboss@gmail.com and greet him by calling AinsleyTwo.
 
 ## Fun ideas!
 Use this to track employees, children, hotel residents and more!
