@@ -97,7 +97,7 @@ A full sample:
 >--data "words=Hello+Guy" http://localhost:4567/say
 ]
 ```
-This sample would call Door Watcher when GuyMan (AKA: 10101) enters the range and then send an email Sto guysboss@gmail.com and greet him by calling AinsleyTwo.
+This sample would call Door Watcher when GuyMan (AKA: 10101) enters the range and then send an email to guysboss@gmail.com and greet him by calling AinsleyTwo.
 
 ## Fun ideas!
 Use this to track employees, children, hotel residents and more!
