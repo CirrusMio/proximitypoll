@@ -147,9 +147,7 @@ class InProximity < Sinatra::Base
                          end
                 end
         end
-  end
    #Get and post poll
    get '/poll', &poll
    post '/poll', &poll
-
-end
+   end
